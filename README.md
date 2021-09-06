@@ -1,4 +1,4 @@
-# User authentication in Django/Ajax/Jquery
+# User Authentication In Django/Ajax/Jquery
 # Demo: Authentication System Using Django/Ajax/Jquery
 ![ajax](https://user-images.githubusercontent.com/67781881/132255146-7ec7ec6d-307d-4e14-b4a9-3ba8813c8b1d.gif)
 # Demo: Authentication System Using Django
