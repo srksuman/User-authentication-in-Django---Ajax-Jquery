@@ -1,8 +1,8 @@
 # User authentication in Django Normal Vs. Ajax
-# Demo: Authentication System Using Django
-![normal](https://user-images.githubusercontent.com/67781881/132255095-4123af41-ee2f-4fa6-bf35-ac3dd171e516.gif)
 # Demo: Authentication System Using Django/Ajax/Jquery
 ![ajax](https://user-images.githubusercontent.com/67781881/132255146-7ec7ec6d-307d-4e14-b4a9-3ba8813c8b1d.gif)
+# Demo: Authentication System Using Django
+![normal](https://user-images.githubusercontent.com/67781881/132255095-4123af41-ee2f-4fa6-bf35-ac3dd171e516.gif)
 
 Overview
 The Django authentication system handles both authentication and authorization.
