@@ -1,0 +1,262 @@
+<!--{"Author":"Hello it's me Suman Raj Khanal and in this program, i have used ajax and jquery to authenticate system using Django! "}-->
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <title>Login</title>
+</head>
+<body>
+    <div class="row">
+    <div class="col-md-6 mx-auto p-0">
+        <div class="card">
+            <div class="login-box">
+                <div class="login-snip"> <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Login</label> <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
+                    <div class="login-space">
+                        <div class="login">
+                    <form action="" method="post" novalidate id="log_from_data">
+                    {% csrf_token %}
+                            <div class="group"> {{loginForm.username}}
+					  <small class="login_username_error text-danger"></small> </div>
+                            <div class="group"> {{loginForm.password}}
+					  <small class="login_password_error text-danger"></small> </div>
+                            
+                            <div class="group"> <input type="submit" value="Login" id="login" name="login" class="button">
+					</form>
+                    </div>
+                            <div class="hr"></div>
+                            
+                            <div class="foot"> <a href="#">Forgot Password?</a> </div>
+                        </div>
+
+                            <form action="" method="post" id = "reg_form_data" novalidate>
+                                        {% csrf_token %}
+                        <div class="sign-up-form">
+                            <div class="group">  {{userCreation.username}}
+                        <small class="error_username text-danger font-weight-lighter font-italic" >{{userCreation.username.errors|striptags}}</small>
+                        </div>
+                                                    <div class="group"> {{userCreation.first_name}} 
+                        <small class="error_fname text-danger">{{userCreation.first_name.errors|striptags}}</small>
+                        </div>
+                                                    <div class="group"> {{userCreation.last_name}}
+                        <small class="error_lname text-danger">{{userCreation.last_name.errors|striptags}}</small>
+                        </div>
+                                                    <div class="group"> {{userCreation.email}}
+                        <small class="error_email text-danger">
+                        {{userCreation.email.errors|striptags}}</small></div>
+
+                        <div class="group"> {{userCreation.password1}} 
+                        <small class="error_password1 text-danger">
+                        {{userCreation.password1.errors|striptags}}</small></div>
+
+                        <div class="group"> {{userCreation.password2}} 
+                        <small class="error_password2 text-danger">
+                        {{userCreation.password2.errors|striptags}} </small></div>
+
+
+                            <div class="group"> <input type="submit" class="button" value="Sign Up" id="reg" name="reg_form"> </div>
+                            </form>
+
+                        <div>
+                        <div class="msg"></div>
+                        </div>
+
+                            <div class="hr"></div>
+                            <div class="foot"> <label for="tab-1">Already Member?</label> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("#reg").click(function(e){
+		
+        e.preventDefault()
+        
+
+        datas = {}
+       
+        form_data = $("#reg_form_data").serializeArray();
+        
+        $.each(form_data,function(i,data){
+            datas[data.name] = data.value 
+           
+        })
+      
+       
+        
+        $.ajax({
+           method:"POST",
+           url: {% url 'reg' %},
+           data:datas,
+            success:function(data){
+                {% comment %} console.log(data.error_name)
+                console.log(data.error_value) {% endcomment %}
+
+                data_error_dic = {}
+				if (data.error_name){
+                $.each(data.error_name,function(k,v){
+                    data_error_dic[v] = data.error_value[k]
+
+                })
+				}
+                console.log(data_error_dic)
+                
+       
+        if (data_error_dic["username"]){
+            $('.error_username').html(data_error_dic["username"])
+
+        }else{
+           $('.error_username').html("")
+ 
+        }
+        if (data_error_dic["first_name"]){
+            $('.error_fname').html(data_error_dic["first_name"])
+
+        }else{
+            $('.error_fname').html("")
+
+        }
+        if (data_error_dic["last_name"]){
+            $('.error_lname').html(data_error_dic["last_name"])
+
+        }else{
+            $('.error_lname').html("")
+
+        }
+        if (data_error_dic["email"]){
+            $('.error_email').html(data_error_dic["email"])
+
+        }else{
+            $('.error_email').html("")
+
+        }
+        if (data_error_dic["password1"]){
+            $('.error_password1').html(data_error_dic["password1"])
+
+        }else{
+            $('.error_password1').html("")
+
+        }
+        if (data_error_dic["password2"]){
+            $('.error_password2').html(data_error_dic["password2"])
+
+        }else{
+            $('.error_password2').html("")
+
+        }
+
+        if(data.error_email){
+            console.log(data.error_email)
+            $('.error_email').html(data.error_email)
+        }
+
+        if (data.status == 200){
+           
+           $('.msg').html(`<span class="bg-success p-3 text-white mt-3 text-center rounded">Account is created successfully!</span>`)
+            $('form')[1].reset()
+			
+			
+		}
+               
+            }
+        })
+        
+    })
+    
+})
+</script>
+<!--Login process-->
+<script>
+$(document).ready(function(){
+    $("#login").click(function(e){
+		
+        e.preventDefault()
+        
+
+        datas = {}
+       
+        form_data = $("#log_from_data").serializeArray();
+        
+        $.each(form_data,function(i,data){
+            datas[data.name] = data.value 
+           
+        })
+        console.log(datas)
+       
+        
+        $.ajax({
+           method:"POST",
+           url: {% url 'login' %},
+           data:datas,
+            success:function(data){
+                console.log(data.error_name)
+                console.log(data.error_value)
+
+                data_error_dic = {}
+				if (data.error_name){
+                $.each(data.error_name,function(k,v){
+                    data_error_dic[v] = data.error_value[k]
+
+                })
+				}
+                console.log(data_error_dic)
+                
+       
+        if (data_error_dic["username"]){
+            $('.login_username_error').html(data_error_dic["username"])
+
+        }else{
+           $('.login_username_error').html("")
+ 
+        }
+
+		if(data_error_dic['__all__']){
+			console.log(data_error_dic['__all__'])
+			 $('.error_msg').html(data_error_dic['__all__'])
+		}else{
+		$('.error_msg').html("")	
+		}
+        
+        
+        if (data_error_dic["password"]){
+            $('.login_password_error').html(data_error_dic["password"])
+
+        }else{
+            $('.login_password_error').html("")
+
+        }
+       
+
+        if (data.status == 200){
+           
+            
+           
+            window.location = "{% url 'home' %}"
+        }
+		if(data.status == 203){
+			 $('.error_msg').html("Someting Went wrong")
+		}
+               
+               
+            }
+        })
+        
+    })
+    
+})
+
+</script>
+</body>
+</html>
