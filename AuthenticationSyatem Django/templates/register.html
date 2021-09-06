@@ -1,0 +1,30 @@
+{% extends 'core.html' %}
+{% block content %}
+<div class="container">
+<div class="row">
+<div class="col-md-5 offset-md-3">
+<h4 class="mt-5 text-center">Register</h4>
+<form action="" method="post" novalidate>
+{% csrf_token %}
+{{form}}
+<br>
+<input type="submit" value="Register" class="btn btn-dark mt-3">
+</form>
+<div class="div">
+<a href="{% url 'login' %}"  >Login</a>
+</div>
+<div class="mt-4">
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  {{message}}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+    {% endfor %}
+{% endif %}
+</div>
+
+</div>
+</div>
+</div>
+{% endblock content %}

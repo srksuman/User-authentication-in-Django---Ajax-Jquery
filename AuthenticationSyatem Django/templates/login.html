@@ -1,0 +1,18 @@
+{% extends 'core.html' %}
+{% block content %}
+<div class="container">
+<div class="row">
+<div class="col-md-5 offset-md-3">
+<h4 class="mt-5 text-center">Login</h4>
+<form action="" method="post" novalidate>
+{% csrf_token %}
+{{form}}
+<br>
+<input type="submit" value="Login" class="btn btn-dark mt-3">
+</form>
+
+<a href="{% url 'register' %}" >Register</a>
+</div>
+</div>
+</div>
+{% endblock content %}
